@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct InputComponent: View {
+    @Binding var text: String
+    var placeholder: String
+    var icon: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 20) {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(.gray)
+                TextField(placeholder, text: $text)
+                    .textFieldStyle(PlainTextFieldStyle())
+            }
+            .padding()
+            .background(.surface)
+            .cornerRadius(10)
+            .padding(.horizontal)
+        }.padding()
     }
 }
 
 #Preview {
-    InputComponent()
+    InputComponent(text: .constant(""), placeholder: "Buscar...", icon: "magnifyingglass")
 }
