@@ -1,13 +1,13 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  WallSpace
 //
-//  Created by WIN603 on 26/09/25.
+//  Created by WIN603 on 17/10/25.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
     var body: some View {
         TabView {
             
@@ -52,5 +52,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MainView()
 }
