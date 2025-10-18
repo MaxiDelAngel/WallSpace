@@ -11,7 +11,7 @@ import SwiftUI
 struct WallSpaceApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BoardingView()
         }
     }
 }
