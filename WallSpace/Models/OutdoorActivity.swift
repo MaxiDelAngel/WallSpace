@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 
 struct OutdoorActivity: Identifiable {
     var id = UUID()

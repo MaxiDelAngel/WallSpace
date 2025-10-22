@@ -7,24 +7,32 @@
 
 import SwiftUI
 
+
 struct HomeView: View {
-    @State private var searchText = ""
     @State private var selectedTopic = "Todos"
+    @ObservedObject var SearchObjetct = SearchObjetctController.shared
+
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
+
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    InputComponent(text: $searchText, placeholder: "Buscar..", icon: "magnifyingglass")
+                    InputComponent(text: $SearchObjetct.searchText, placeholder: "Buscar..", icon: "magnifyingglass")
+                        .onSubmit {
+                            SearchObjetct.search()
+                        }
                     FilterView(selectedTopic: $selectedTopic)
-                    GalleryView()
-                    
+                    GalleryView(results: SearchObjetct.results)
                 }
                 .padding(.top)
             }
             .navigationTitle("WallSpace")
             .navigationBarTitleDisplayMode(.large)
             .navigationBarBackButtonHidden(true)
+        }
+        .onAppear(){
+            SearchObjetct.search()
         }
     }
 }

@@ -24,7 +24,7 @@ struct BoardingView: View {
             .tabViewStyle(PageTabViewStyle())
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         } else {
-           ContentView()
+           HomeView()
         }
     }
 }
