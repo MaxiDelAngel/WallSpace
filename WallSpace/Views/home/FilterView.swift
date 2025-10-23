@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FilterView: View {
     @Binding var selectedTopic: String
+    @ObservedObject var SearchObjetct = SearchObjetctController.shared
+
     let topics = [
         "Todos",
         "Wallpapers",
@@ -38,6 +40,9 @@ struct FilterView: View {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 
                                 selectedTopic = topic
+                                SearchObjetct.searchText=selectedTopic
+                                SearchObjetct.search()
+
                             }
                         }
                 }

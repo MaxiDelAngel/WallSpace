@@ -11,6 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var selectedTopic = "Todos"
     @ObservedObject var SearchObjetct = SearchObjetctController.shared
+    
 
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
@@ -21,11 +22,20 @@ struct HomeView: View {
                     InputComponent(text: $SearchObjetct.searchText, placeholder: "Buscar..", icon: "magnifyingglass")
                         .onSubmit {
                             SearchObjetct.search()
+                            if SearchObjetct.searchText == ""  {
+                                SearchObjetct.emptySearch()
+                                SearchObjetct.searchText = ""
+                                    
+                            }
                         }
                     FilterView(selectedTopic: $selectedTopic)
+                    
+                    
                     GalleryView(results: SearchObjetct.results)
                 }
+               
                 .padding(.top)
+               
             }
             .navigationTitle("WallSpace")
             .navigationBarTitleDisplayMode(.large)
