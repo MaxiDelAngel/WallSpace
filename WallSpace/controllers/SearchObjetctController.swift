@@ -22,6 +22,7 @@ class SearchObjetctController: ObservableObject{
               let url = URL(string: "https://api.unsplash.com/search/photos?query=\(encodedQuery)") else {
             return
         }
+       
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -40,4 +41,32 @@ class SearchObjetctController: ObservableObject{
         }
         task.resume()
     }
+    func emptySearch(){
+        searchText = "Random"
+        guard let encodedQuery = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: "https://api.unsplash.com/search/photos?query=\(encodedQuery)") else {
+            return
+        }
+       
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Client-ID \(token)", forHTTPHeaderField: "Authorization")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, res, error) in
+            guard let data = data else { return }
+            do{
+                let res = try JSONDecoder().decode(Results.self, from: data)
+                DispatchQueue.main.async {
+                    self.results = res.results  // Reemplazar en vez de append
+                }
+            } catch {
+                print(error)
+            }
+        }
+        task.resume()
+    }
+       
+    
 }
+
