@@ -1,10 +1,3 @@
-//
-//  GalleryView.swift
-//  WallSpace
-//
-//  Created by Angel Imanol on 13/10/25.
-//
-
 import SwiftUI
 
 struct GalleryView: View {
@@ -14,26 +7,31 @@ struct GalleryView: View {
     var body: some View {
         LazyVGrid(columns: columns, spacing: 12) {
             ForEach(results, id: \.id) { result in
-                VStack {
+                ZStack(alignment: .topTrailing) {
                     AsyncImage(url: URL(string: result.urls.small)) { phase in
                         switch phase {
-                        case .empty:
-                            Color(.systemGray5)
-                                .overlay(ProgressView())
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        case .failure:
-                            Color(.systemGray5)
-                                .overlay(
-                                    Image(systemName: "photo")
-                                        .foregroundColor(.gray)
-                                )
-                        @unknown default:
-                            EmptyView()
-                        }
+                            case .empty:
+                                Color(.systemGray5)
+                                    .overlay(ProgressView())
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .overlay(
+                                       BtnFavoritos()
+                                    )
+                            case .failure:
+                                Color(.systemGray5)
+                                    .overlay(
+                                        Image(systemName: "photo")
+                                            .foregroundColor(.gray)
+                                    )
+                            @unknown default:
+                                EmptyView()
+                            }
                     }
+
+                 
                 }
                 .frame(width: 180, height: 240)
                 .clipped()
