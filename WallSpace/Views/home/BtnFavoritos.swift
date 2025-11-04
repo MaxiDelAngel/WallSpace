@@ -1,17 +1,13 @@
-//
-//  BtnFavoritos.swift
-//  WallSpace
-//
-//  Created by WIN603 on 24/10/25.
-//
-
 import SwiftUI
 
 struct BtnFavoritos: View {
+    @ObservedObject var searchObject = SearchObjetctController.shared
+    let imageURL: String
+
     var body: some View {
-        
         HStack(spacing: 6) {
             Button {
+                // Aquí guardarías favoritos
             } label: {
                 Image(systemName: "heart")
                     .font(.system(size: 14, weight: .semibold))
@@ -22,7 +18,7 @@ struct BtnFavoritos: View {
             }
 
             Button {
-          
+                searchObject.downloadImage(from: imageURL)
             } label: {
                 Image(systemName: "arrow.down.circle")
                     .font(.system(size: 14, weight: .semibold))
@@ -37,5 +33,5 @@ struct BtnFavoritos: View {
 }
 
 #Preview {
-    BtnFavoritos()
+    BtnFavoritos(imageURL: "https://example.com")
 }
