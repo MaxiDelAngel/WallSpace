@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import UIKit
 
 class SearchObjetctController: ObservableObject{
     static let shared = SearchObjetctController()
@@ -67,6 +68,16 @@ class SearchObjetctController: ObservableObject{
         task.resume()
     }
        
+    func downloadImage(from urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data,
+                  let image = UIImage(data: data) else { return }
+
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        }.resume()
+    }
     
 }
 

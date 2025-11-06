@@ -18,7 +18,7 @@ struct GalleryView: View {
                                     .resizable()
                                     .scaledToFill()
                                     .overlay(
-                                       BtnFavoritos()
+                                        BtnFavoritos(imageURL: result.urls.small)
                                     )
                             case .failure:
                                 Color(.systemGray5)
