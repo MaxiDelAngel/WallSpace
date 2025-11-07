@@ -8,10 +8,15 @@ struct BtnFavoritos: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            // Favoritos (aún sin lógica)
+            // Favoritos
             Button {
+                searchObject.toggleFavorite(imageURL)
+                #if os(iOS)
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.impactOccurred()
+                #endif
             } label: {
-                Image(systemName: "heart")
+                Image(systemName: searchObject.favorites.contains(imageURL) ? "heart.fill" : "heart")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
                     .padding(8)

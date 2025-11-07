@@ -28,7 +28,7 @@ struct MainView: View {
                     Text("Categorias")
                     
                 }
-            Text("Favoritos")
+            FavScreen()
             
                 .tabItem {
                     
