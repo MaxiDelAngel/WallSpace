@@ -19,19 +19,20 @@ class SearchObjetctController: ObservableObject{
     @Published var results = [Result]()
     @Published var searchText : String = "Wallapers"
     @Published var favorites: [String] = []
-    
+
     func search(){
         // Codificar el texto de búsqueda para URL
         guard let encodedQuery = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: "https://api.unsplash.com/search/photos?query=\(encodedQuery)") else {
             return
         }
+
         
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Client-ID \(token)", forHTTPHeaderField: "Authorization")
-        
+
         let task = URLSession.shared.dataTask(with: request) { (data, res, error) in
             guard let data = data else { return }
             do{
@@ -51,18 +52,21 @@ class SearchObjetctController: ObservableObject{
               let url = URL(string: "https://api.unsplash.com/search/photos?query=\(encodedQuery)") else {
             return
         }
+
         
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Client-ID \(token)", forHTTPHeaderField: "Authorization")
-        
+
         let task = URLSession.shared.dataTask(with: request) { (data, res, error) in
             guard let data = data else { return }
             do{
                 let res = try JSONDecoder().decode(Results.self, from: data)
                 DispatchQueue.main.async {
-                    self.results = res.results
+
+                    self.results = res.results  // Reemplazar en vez de append
+
                 }
             } catch {
                 print(error)
@@ -70,6 +74,7 @@ class SearchObjetctController: ObservableObject{
         }
         task.resume()
     }
+
     
     func downloadImage(from urlString: String) {
         guard let url = URL(string: urlString) else { return }
@@ -78,10 +83,12 @@ class SearchObjetctController: ObservableObject{
             guard let data = data,
                   let image = UIImage(data: data) else { return }
             
+
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         }.resume()
     }
     
+
     func addToFavorites(_ imageURL: String) {
         if !favorites.contains(imageURL) {
             favorites.append(imageURL)

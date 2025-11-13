@@ -6,44 +6,59 @@ struct BtnFavoritos: View {
 
     @State private var showAlert = false
 
+    @State private var showButtons = false  // Controlar la visibilidad de los botones
+
     var body: some View {
         HStack(spacing: 6) {
-            // Favoritos
-            Button {
-                searchObject.toggleFavorite(imageURL)
-                #if os(iOS)
-                let generator = UIImpactFeedbackGenerator(style: .light)
-                generator.impactOccurred()
-                #endif
-            } label: {
-                Image(systemName: searchObject.favorites.contains(imageURL) ? "heart.fill" : "heart")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.white)
-                    .padding(8)
-                    .background(Color.black.opacity(0.35))
-                    .clipShape(Circle())
-            }
+            ZStack {
+                AsyncImage(url: URL(string: imageURL)) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        
+                        .cornerRadius(12)
+                } placeholder: {
+                    ProgressView()
+                }
+                if showButtons {
+                    HStack {
+                        Button {
+                        } label: {
+                            Image(systemName: "heart")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(8)
+                                .background(Color.black.opacity(0.35))
+                                .clipShape(Circle())
+                        }
 
-            // Descargar
-            Button {
-                showAlert = true
-            } label: {
-                Image(systemName: "arrow.down.circle")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.white)
+                        Button {
+                            showAlert = true
+                        } label: {
+                            Image(systemName: "arrow.down.circle")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(8)
+                                .background(Color.black.opacity(0.35))
+                                .clipShape(Circle())
+                        }
+                    }
                     .padding(8)
-                    .background(Color.black.opacity(0.35))
-                    .clipShape(Circle())
+                }
             }
-        }
-        .padding(8)
-        .alert("¿Descargar imagen?", isPresented: $showAlert) {
-            Button("Cancelar", role: .cancel) {}
-            Button("Descargar") {
-                searchObject.downloadImage(from: imageURL)
+            .onTapGesture {
+                withAnimation {
+                    showButtons.toggle()  
+                }
             }
-        } message: {
-            Text("Se guardará en tu galería.")
+            .alert("¿Descargar imagen?", isPresented: $showAlert) {
+                Button("Cancelar", role: .cancel) {}
+                Button("Descargar") {
+                    searchObject.downloadImage(from: imageURL)
+                }
+            } message: {
+                Text("Se guardará en tu galería.")
+            }
         }
     }
 }
